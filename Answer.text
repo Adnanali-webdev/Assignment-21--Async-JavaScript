@@ -1,0 +1,120 @@
+Q2)
+ans) 
+JavaScript was originally designed to run in browsers on a single thread, sharing the same thread as the UI rendering.
+If everything ran asynchronously by default:
+
+a) Order of execution would become unpredictable — a problem for DOM manipulation and sequential logic.
+b) It would be harder to debug and reason about the code.
+c) Operations that depend on each other could run out of order, breaking application logic.
+
+By making JavaScript synchronous by default, it ensures:
+
+a) Predictable Execution Order – Code runs line by line, top to bottom.
+b) Data Consistency – Shared variables are updated in a predictable way.
+c) Simplicity – Avoids race conditions for most code without needing locks or complex thread management.
+
+When JavaScript does run asynchronous code (e.g., setTimeout, fetch, event listeners), it uses the event loop to queue these tasks for later execution, after the current synchronous code finishes.
+---please refer code part on Answer.js---
+
+Even though the setTimeout delay is 0ms, the callback does not execute immediately.
+JavaScript first finishes all synchronous code (console.log("1. Start") → console.log("2. End")) before picking tasks from the callstack queue.
+
+This shows JavaScript executes synchronously by default — asynchronous code only runs after the synchronous block is complete.
+
+
+
+
+
+
+
+
+Q4)
+Ans)
+     A JavaScript Promise has three main states (plus an initial conceptual one), and it transitions in only one direction — once it leaves pending, it cannot go back.
+
+1.  Pending
+    Meaning: The promise has been created, but the async operation is still in progress.
+    Example: Waiting for setTimeout to finish, waiting for a network request, etc.
+
+    eg:- refer in the Answer.js
+
+2. Fulfilled 
+Meaning: The operation completed successfully, and the promise now has a resolved value.
+Transition: pending → fulfilled
+
+    eg:- refer in the Answer.js
+
+3. Rejected 
+Meaning: The operation failed, and the promise now has a reason (error).
+Transition: pending → rejected
+
+eg:- refer in the Answer.js
+
+Important Rules
+i)    A promise starts in pending.
+ii)   It can transition only once:
+      pending → fulfilled
+      pending → rejected
+
+iii)  Once fulfilled or rejected, it is settled (state won’t change again).
+iv)   .then() handles fulfilled values; .catch() handles rejections; .finally() runs regardless.
+
+
+
+
+
+
+Q5)
+Ans) 
+1. Key Terms to Understand
+Call Stack :-
+    This is where JavaScript runs functions synchronously.
+    A function is pushed when it starts, popped when it ends.
+
+Event Loop :-
+     A mechanism that constantly checks:
+     Is the call stack empty?
+     If yes → Process microtask queue first.
+     Then → Process callstack queue.
+
+Microtask Queue :-
+  Holds callbacks from :-
+     Promise.then, catch, finally
+     queueMicrotask
+     MutationObserver
+
+  Runs before any callstack after the stack is empty.
+
+callstack Queue :-
+  Holds callbacks from:
+     setTimeout
+     setInterval
+     DOM events
+     I/O
+  Runs after all microtasks are done.
+
+
+2. Step-by-Step Execution of Your Example
+Step 1 — Synchronous Phase
+- The function createPromiseWithLoop() is called.
+- Inside it, the Promise constructor runs synchronously and sets a setTimeout for 10 seconds.
+- That setTimeout callback is placed in the callstack queue (will execute after 10s).
+- The Promise object is returned immediately and stored in y.
+- console.log(y) prints:
+
+Step 2 — After 10 Seconds
+- The setTimeout callback moves from the callback queue to the call stack when the stack is empty.
+- Inside that callback:
+   -> A random number is generated.
+   -> If even → resolve(num) is called.
+   -> If odd → reject(num) is called.
+
+Step 3 — Resolving or Rejecting the Promise
+- Calling resolve or reject doesn’t execute .then() or .catch() immediately.
+- Instead, those callbacks are placed into the microtask queue.
+
+Step 4 — Event Loop Priority
+After the current callstack queue (setTimeout callback) finishes, the event loop:
+Looks at the microtask queue (finds your .then() / .catch() handlers).
+Runs all microtasks queue before taking the next callstack queue.
+

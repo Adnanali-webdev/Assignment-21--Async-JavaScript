@@ -1,0 +1,24 @@
+1) Demonstrate JavaScript's Single-Threaded Nature
+
+ Question:
+
+ Write an example to show that JavaScript is single-threaded by creating two competing tasks, one that
+ blocks the event loop and another async function that waits for a promiseB
+
+
+2) Why Does JavaScript Not Execute Asynchronously by Default?
+
+ Question:
+
+ JavaScript is often called synchronous and single-threaded, yet it handles asynchronous tasks like AJAX
+ requests, timers, and event listeners.
+a) Explain why JavaScript does not execute asynchronously by defaultB
+b) Write a code snippet to prove that JavaScript is inherently synchronousB
+
+
+3) Chaining Promises with setTimeout
+
+ Modify the delay function to chain multiple promises so that three messages are logged in sequence with
+ delays
+4) What are the different states of a Promise, and how do they transition?
+5) How does the JavaScript event loop handle Promises differently from setTimeout?
