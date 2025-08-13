@@ -54,14 +54,14 @@ function delay(message, timer){
 
 delay(" the delay function to chain multiple promises so that three messages are logged in sequence with delays", 0)
  .then(function fulfillHandler(){
- delay("first message logged In 1 after 3s", 3000);
+  return delay("first message logged In 1 after 3s", 3000);
 })
  .then(function fulfillHandler(){
- delay("Second message logged In 2 after 6s", 6000);
+  return delay("Second message logged In 2 after 6s", 3000);
 })
  .then(function fulfillHandler(){
- delay("Third message logged In 3 after 9s", 9000);
-})
+ return delay("Third message logged In 3 after 9s", 3000);
+});
 
 
 //Q4)
